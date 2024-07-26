@@ -1,0 +1,20 @@
+.albums-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+}
+.album-container {
+    display: grid;
+    grid-template-rows: 240px auto;
+    row-gap: 0;
+}
+.thumbnail-container {
+    width: 300px;
+    height: 240px;
+}
+.album-summary {
+    text-align: center;
+}
+.album-name {
+    font-size: 16px;
+    font-weight: bold;
+}

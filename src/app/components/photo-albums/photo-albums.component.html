@@ -1,12 +1,14 @@
 <div class="albums-container">
-    @for(album of albums.albums; track album) {
-        <div class="album-container">
-            <div class="thumbnail-container">
+    @for(album of albums$ | async; track album) {
+    <div class="album-container">
+        <div class="thumbnail-container">
+            <a [routerLink]="['/albums', album.path]">
                 <img src="{{ getThumbnailImagePath(albums, album) }}" alt="{{ album.description }}">
-            </div>
-            <div class="album-summary">
-                <span class="album-name">{{ album.name }}</span>
-            </div>
+            </a>
         </div>
+        <div class="album-summary">
+            <span class="album-name">{{ album.name }}</span>
+        </div>
+    </div>
     }
 </div>

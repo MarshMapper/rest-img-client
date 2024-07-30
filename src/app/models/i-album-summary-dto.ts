@@ -1,5 +1,5 @@
 export interface IAlbumSummaryDto {
-    description: number;
+    description: string;
     path: string;
     name: string;
     thumbnail: string;

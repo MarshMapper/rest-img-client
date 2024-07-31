@@ -1,4 +1,7 @@
 .albums-container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, 300px);
 }

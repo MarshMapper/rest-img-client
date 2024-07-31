@@ -1,0 +1,11 @@
+.album-container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 600px);
+}
+.photo-container {
+    width: 600px;
+    height: 480px;
+}

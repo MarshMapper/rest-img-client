@@ -1,6 +1,12 @@
-# RestImgClient
+# rest-img-client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
+This application is an Angular client for the rest-img photo album service and image resizing middleware.  The album service crawls a directory of images and provides a RESTful API for accessing the images.  This application calls that service and displays the albums and photos, using the image resizing middleware to get the image in the needed sizes for thumbnails, previews, etc.
+
+The initial implementation is very simple and uses only standard img tags.  The main goal is to explore the use of the NgOptimizedImage directive and how it can facilitate optimized loading and display of images, including lazy loading and responsive images.
+
+# Standard Angular CLI commands
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8 and can be executed and updated with the standard CLI commands.
 
 ## Development server
 

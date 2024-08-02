@@ -1,8 +1,10 @@
 # rest-img-client
 
-This application is an Angular client for the rest-img photo album service and image resizing middleware.  The album service crawls a directory of images and provides a RESTful API for accessing the images.  This application calls that service and displays the albums and photos, using the image resizing middleware to get the image in the needed sizes for thumbnails, previews, etc.
+This application is an Angular client for the [rest-img](https://github.com/MarshMapper/rest-img) photo album service and image resizing middleware.  The album service crawls a directory of images and provides a RESTful API for accessing the images.  This application calls that service and displays the albums and photos, using the image resizing middleware to get the image in the needed sizes for thumbnails, previews, etc.
 
-The initial implementation is very simple and uses only standard img tags.  The main goal is to explore the use of the NgOptimizedImage directive and how it can facilitate optimized loading and display of images, including lazy loading and responsive images.
+The initial implementation is very simple and the main goal is to explore the use of modern browser features for optimally loading images.  Currently, the application creates a srcset for the photos, using the image resizing middleware to generate the needed sizes on demand.  The browser will then load the image baesd on the pixel desnity of the device and the size of the image on the screen.
+
+The original intent was to use the NgOptimizedImage directive but it can only work on images known at compile time. Since the images are loaded dynamically, the directive cannot be used.  Instead, the application uses the standard img element and sets the srcset attribute dynamically.
 
 # Standard Angular CLI commands
 

@@ -3,7 +3,7 @@ import { PhotoAlbumService } from '../../services/photo-album.service';
 import { IAlbumsDto } from '../../models/i-albums-dto';
 import { IAlbumSummaryDto } from '../../models/i-album-summary-dto';
 import { CommonModule } from '@angular/common';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 })
 export class PhotoAlbumsComponent implements OnInit {
   albums$: Subject<IAlbumSummaryDto[]> = new Subject<IAlbumSummaryDto[]>();
+  thumbnailWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(300);
   albums: IAlbumsDto = { startingFolderWebPath: '', albums: [] };
 
   constructor(private photoAlbumService: PhotoAlbumService) {}

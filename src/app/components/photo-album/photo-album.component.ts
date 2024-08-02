@@ -3,7 +3,7 @@ import { IAlbumDto } from '../../models/i-album-dto';
 import { PhotoAlbumService } from '../../services/photo-album.service';
 import { IFileDto } from '../../models/i-file-dto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,6 +19,7 @@ export class PhotoAlbumComponent {
     description: '', name: '', path: '', thumbnail: '', files: [] 
   };
   photos$: Subject<IFileDto[]> = new Subject<IFileDto[]>();
+  previewWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(600);
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -42,6 +43,6 @@ export class PhotoAlbumComponent {
     }
   }
   getPreviewImagePath(file: IFileDto, density: number = 1): string {
-    return this.photoAlbumService.getSizedImagePath(this.album, file.name, 600 * density);
+    return this.photoAlbumService.getSizedImagePath(this.album, file.name, this.previewWidth$.value * density);
   }
 }

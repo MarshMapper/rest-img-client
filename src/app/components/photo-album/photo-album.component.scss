@@ -4,8 +4,10 @@
     margin-right: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, 600px);
+    column-gap: 6px;
 }
 .photo-container {
-    width: 600px;
-    height: 480px;
+    // width will be set on the image
+    width: auto;
+    height: auto;
 }

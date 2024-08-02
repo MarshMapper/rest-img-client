@@ -3,9 +3,10 @@
     <div class="album-container">
         <div class="thumbnail-container">
             <a [routerLink]="['/albums', album.path]">
-                <img src="{{ getThumbnailImagePath(albums, album, 300) }}"
-                     srcset="{{ getThumbnailImagePath(albums, album, 600) }} 2x"
-                     alt="{{ album.description }}">
+                <img src="{{ getThumbnailImagePath(albums, album, thumbnailWidth$.value ) }}"
+                     srcset="{{ getThumbnailImagePath(albums, album, thumbnailWidth$.value * 2) }} 2x"
+                     alt="{{ album.description }}"
+                     width="{{ thumbnailWidth$ | async }}">
             </a>
         </div>
         <div class="album-summary">

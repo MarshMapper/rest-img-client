@@ -28,18 +28,20 @@ export class PhotoAlbumComponent {
     if (albumId === null) {
       this.router.navigate(['/albums']);
     } else {
-      this.photoAlbumService.getAlbum(albumId).subscribe({
-        next: (album: IAlbumDto) => {
-          this.album = album;
-          this.photos$.next(album.files);
-        },
-        error: (error: Error) => {
-          console.error(error.message);
-        }
+      this.photoAlbumService.getAlbums().subscribe((albums) => {
+        this.photoAlbumService.getAlbum(albumId).subscribe({
+          next: (album: IAlbumDto) => {
+            this.album = album;
+            this.photos$.next(album.files);
+          },
+          error: (error: Error) => {
+            console.error(error.message);
+          }
+        });
       });
     }
   }
-  getPreviewImagePath(file: IFileDto): string {
-    return this.photoAlbumService.getSizedImagePath(this.album, file.name, 600);
+  getPreviewImagePath(file: IFileDto, density: number = 1): string {
+    return this.photoAlbumService.getSizedImagePath(this.album, file.name, 600 * density);
   }
 }

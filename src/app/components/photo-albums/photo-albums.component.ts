@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OnInit, ChangeDetectionStrategy, Component } from '@angular/core';
 import { PhotoAlbumService } from '../../services/photo-album.service';
 import { IAlbumsDto } from '../../models/i-albums-dto';
 import { IAlbumSummaryDto } from '../../models/i-album-summary-dto';
@@ -14,12 +14,12 @@ import { RouterModule } from '@angular/router';
   styleUrl: './photo-albums.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PhotoAlbumsComponent {
+export class PhotoAlbumsComponent implements OnInit {
   albums$: Subject<IAlbumSummaryDto[]> = new Subject<IAlbumSummaryDto[]>();
   albums: IAlbumsDto = { startingFolderWebPath: '', albums: [] };
 
-  constructor(private photoAlbumService: PhotoAlbumService) { }
-  ngOnInit() {
+  constructor(private photoAlbumService: PhotoAlbumService) {}
+  ngOnInit(): void {
     this.photoAlbumService.getAlbums().subscribe({
       next: (albums: IAlbumsDto) => {
         this.albums = albums;
@@ -30,7 +30,7 @@ export class PhotoAlbumsComponent {
       }
     });
   }
-  getThumbnailImagePath(albums: IAlbumsDto, album: IAlbumSummaryDto): string {
-    return this.photoAlbumService.getThumbnailImagePath(albums, album);
+  getThumbnailImagePath(albums: IAlbumsDto, album: IAlbumSummaryDto, width: number): string {
+    return this.photoAlbumService.getSizedImagePath(album, album.thumbnail, width);
   }
 }

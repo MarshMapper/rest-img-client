@@ -4,7 +4,8 @@
         <img 
             src="{{ getPreviewImagePath(photo, 1) }}"
             srcset="{{ getPreviewImagePath(photo, 2) }} 2x"
-            alt="{{ photo.name }}">
+            alt="{{ photo.name }}"
+            width="{{ previewWidth$ | async }}">
     </div>
     }
 </div>

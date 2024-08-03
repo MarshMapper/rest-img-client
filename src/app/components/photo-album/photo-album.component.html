@@ -1,11 +1,10 @@
 <div class="album-container">
     @for(photo of photos$ | async; track photo) {
     <div class="photo-container">
-        <img 
+        <img class="photo"
             src="{{ getPreviewImagePath(photo, 1) }}"
             srcset="{{ getPreviewImagePath(photo, 2) }} 2x"
-            alt="{{ photo.name }}"
-            width="{{ previewWidth$ | async }}">
+            alt="{{ photo.name }}">
     </div>
     }
 </div>

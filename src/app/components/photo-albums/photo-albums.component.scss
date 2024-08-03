@@ -3,7 +3,7 @@
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 300px);
+    grid-template-columns: repeat(auto-fill, min(300px, 90vw));
     column-gap: 6px;
 }
 .album-container {
@@ -23,4 +23,8 @@
 }
 .album-name {
     font-size: 13px;
+}
+.preview {
+    width: min(300px, 90vw);
+    height: calc(min(300px, 90vw) * 0.75);
 }

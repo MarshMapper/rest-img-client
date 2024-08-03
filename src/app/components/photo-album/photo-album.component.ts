@@ -25,14 +25,18 @@ export class PhotoAlbumComponent {
     private router: Router,
     private photoAlbumService: PhotoAlbumService) { }
   ngOnInit() {
+    // if not albumId in the route, redirect to albums
     let albumId: string | null = this.route.snapshot.paramMap.get('albumId');
     if (albumId === null) {
       this.router.navigate(['/albums']);
     } else {
+      // currently it's requrired to get the albums first, then get the specific album
+      // we need.
       this.photoAlbumService.getAlbums().subscribe((albums) => {
         this.photoAlbumService.getAlbum(albumId).subscribe({
           next: (album: IAlbumDto) => {
             this.album = album;
+            // trigger UI update
             this.photos$.next(album.files);
           },
           error: (error: Error) => {
@@ -42,6 +46,7 @@ export class PhotoAlbumComponent {
       });
     }
   }
+  // get the path to the preview image which includes resizing it based on the specified density
   getPreviewImagePath(file: IFileDto, density: number = 1): string {
     return this.photoAlbumService.getSizedImagePath(this.album, file.name, this.previewWidth$.value * density);
   }

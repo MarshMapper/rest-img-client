@@ -21,9 +21,11 @@ export class PhotoAlbumsComponent implements OnInit {
 
   constructor(private photoAlbumService: PhotoAlbumService) {}
   ngOnInit(): void {
+    // get the available albums
     this.photoAlbumService.getAlbums().subscribe({
       next: (albums: IAlbumsDto) => {
         this.albums = albums;
+        // trigger UI update
         this.albums$.next(albums.albums);
       },
       error: (error: Error) => {
@@ -31,6 +33,7 @@ export class PhotoAlbumsComponent implements OnInit {
       }
     });
   }
+  // get the path to the thumbnail image which includes resizing it based on the specified width
   getThumbnailImagePath(albums: IAlbumsDto, album: IAlbumSummaryDto, width: number): string {
     return this.photoAlbumService.getSizedImagePath(album, album.thumbnail, width);
   }

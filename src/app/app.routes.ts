@@ -7,19 +7,23 @@ import { PhotoAlbumComponent } from './components/photo-album/photo-album.compon
 export const routes: Routes = [
     {
         path: 'albums',
-        component: PhotoAlbumsComponent
+        component: PhotoAlbumsComponent,
+        title: 'Photo Albums'
     },
     {
         path: 'albums/:albumId',
-        component: PhotoAlbumComponent
+        component: PhotoAlbumComponent,
+        title: 'Photo Album'
     },
     {
         path: 'about',
-        component: AboutComponent
+        component: AboutComponent,
+        title: 'About'
     },
     {
         path: 'help',
-        component: HelpComponent
+        component: HelpComponent,
+        title: 'Help'
     },
     {
         path: '**',

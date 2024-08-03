@@ -6,6 +6,16 @@ The initial implementation is very simple and the main goal is to explore the us
 
 The original intent was to use the NgOptimizedImage directive but it can only work on images known at compile time. Since the images are loaded dynamically, the directive cannot be used.  Instead, the application uses the standard img element and sets the srcset attribute dynamically.
 
+## Demo
+
+GitHub Actions are used to automatically build and deploy the application as an Azure Static Web App.  The application is available here [https://delightful-wave-003abae10.5.azurestaticapps.net/](https://delightful-wave-003abae10.5.azurestaticapps.net/).  It uses the rest-img services that are also deployed using Github Actions as an Azure App Service.
+
+## Use of CSS Grid Layout
+
+CSS Grid Layout is used to create a responsive layout for the albums and photos. Thumbnails and photos will be shown in a grid with as many columns will fit on the current display device, using "repeat" and "auto-fill".
+
+On narrow displays, images will take up the available area but not exceed it.  
+
 # Standard Angular CLI commands
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8 and can be executed and updated with the standard CLI commands.

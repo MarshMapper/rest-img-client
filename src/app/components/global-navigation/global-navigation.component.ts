@@ -33,6 +33,7 @@ export class GlobalNavigationComponent {
     constructor(private progressService: ProgressService) { 
     }
     ngAfterViewInit() {
+        // listen for changes to the work in progress state and use the progress bar to show user
         this.progressService.getWorkInProgress().subscribe((workInProgress: boolean) => {
             setTimeout(() => this.showProgressBar$.next(workInProgress));
         });

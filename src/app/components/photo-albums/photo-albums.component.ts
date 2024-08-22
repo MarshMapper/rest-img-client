@@ -5,6 +5,7 @@ import { IAlbumSummaryDto } from '../../models/i-album-summary-dto';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { ProgressService } from '../../services/progress.service';
 
 @Component({
   selector: 'app-photo-albums',
@@ -19,17 +20,22 @@ export class PhotoAlbumsComponent implements OnInit {
   thumbnailWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(300);
   albums: IAlbumsDto = { startingFolderWebPath: '', albums: [] };
 
-  constructor(private photoAlbumService: PhotoAlbumService) {}
+  constructor(private photoAlbumService: PhotoAlbumService,
+    private progressService: ProgressService
+  ) {}
   ngOnInit(): void {
+    this.progressService.setWorkInProgress(true);
     // get the available albums
     this.photoAlbumService.getAlbums().subscribe({
       next: (albums: IAlbumsDto) => {
         this.albums = albums;
         // trigger UI update
         this.albums$.next(albums.albums);
+        this.progressService.setWorkInProgress(false);
       },
       error: (error: Error) => {
         console.error(error.message);
+        this.progressService.setWorkInProgress(false);
       }
     });
   }

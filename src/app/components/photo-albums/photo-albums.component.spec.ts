@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhotoAlbumsComponent } from './photo-albums.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PhotoAlbumsComponent', () => {
   let component: PhotoAlbumsComponent;
@@ -9,8 +9,9 @@ describe('PhotoAlbumsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PhotoAlbumsComponent, HttpClientModule]
-    })
+    imports: [PhotoAlbumsComponent],
+    providers: [provideHttpClient(withInterceptorsFromDi())]
+})
     .compileComponents();
     
     fixture = TestBed.createComponent(PhotoAlbumsComponent);

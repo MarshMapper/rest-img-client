@@ -18,7 +18,7 @@ On narrow displays, images will take up the available area but not exceed it.
 
 # Standard Angular CLI commands
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8 and can be executed and updated with the standard CLI commands.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) and can be executed and updated with the standard CLI commands.
 
 ## Development server
 

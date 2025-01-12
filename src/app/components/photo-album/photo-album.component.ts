@@ -7,12 +7,11 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-photo-album',
-  standalone: true,
-  imports: [ CommonModule ],
-  templateUrl: './photo-album.component.html',
-  styleUrl: './photo-album.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-photo-album',
+    imports: [CommonModule],
+    templateUrl: './photo-album.component.html',
+    styleUrl: './photo-album.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotoAlbumComponent {
   album: IAlbumDto = { 

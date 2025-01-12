@@ -8,12 +8,11 @@ import { RouterModule } from '@angular/router';
 import { ProgressService } from '../../services/progress.service';
 
 @Component({
-  selector: 'app-photo-albums',
-  standalone: true,
-  imports: [ CommonModule, RouterModule],
-  templateUrl: './photo-albums.component.html',
-  styleUrl: './photo-albums.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-photo-albums',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './photo-albums.component.html',
+    styleUrl: './photo-albums.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotoAlbumsComponent implements OnInit {
   albums$: Subject<IAlbumSummaryDto[]> = new Subject<IAlbumSummaryDto[]>();

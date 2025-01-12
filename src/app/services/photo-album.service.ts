@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { HttpErrorService } from './http-error.service';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { IAlbumSummaryDto } from '../models/i-album-summary-dto';
-import { IAlbumsDto } from '../models/i-albums-dto';
-import { IAlbumDto } from '../models/i-album-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +13,8 @@ export class PhotoAlbumService {
   albumsUrl: string = this.baseUrl + '/albums';
   startingFolderWebPath: string = '';
 
-  constructor(private httpClient: HttpClient,
-    private httpErrorService: HttpErrorService) { }
+  constructor(private readonly httpClient: HttpClient,
+    private readonly httpErrorService: HttpErrorService) { }
   getAlbums(): Observable<any> {
     return this.httpClient.get(this.albumsUrl)
       .pipe(

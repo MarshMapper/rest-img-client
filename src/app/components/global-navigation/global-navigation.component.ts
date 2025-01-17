@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, signal, ViewChild, WritableSignal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -8,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBar, MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 import { ProgressService } from '../../services/progress.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-global-navigation',
@@ -21,20 +19,20 @@ import { BehaviorSubject } from 'rxjs';
         MatListModule,
         MatIconModule,
         MatProgressBarModule,
-        RouterModule,
-        AsyncPipe
-    ]
+        RouterModule
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GlobalNavigationComponent {
     @ViewChild('loadingIndicator') loadingIndicator!: MatProgressBar;
-    showProgressBar$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    showProgressBar: WritableSignal<boolean> = signal(false);
 
-    constructor(private progressService: ProgressService) { 
+    constructor(private readonly progressService: ProgressService) { 
     }
     ngAfterViewInit() {
         // listen for changes to the work in progress state and use the progress bar to show user
         this.progressService.getWorkInProgress().subscribe((workInProgress: boolean) => {
-            setTimeout(() => this.showProgressBar$.next(workInProgress));
+            setTimeout(() => this.showProgressBar.set(workInProgress));
         });
     }   
 }

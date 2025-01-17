@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, Signal, WritableSignal } from '@angular/core';
 import { IAlbumDto } from '../../models/i-album-dto';
 import { PhotoAlbumService } from '../../services/photo-album.service';
 import { IFileDto } from '../../models/i-file-dto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -17,8 +16,8 @@ export class PhotoAlbumComponent {
   album: IAlbumDto = { 
     description: '', name: '', path: '', thumbnail: '', files: [] 
   };
-  photos$: Subject<IFileDto[]> = new Subject<IFileDto[]>();
-  previewWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(600);
+  photos: WritableSignal<IFileDto[]> = signal([]);
+  previewWidth: Signal<number> = signal(600);
 
   constructor(private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -29,14 +28,10 @@ export class PhotoAlbumComponent {
     if (albumId === null) {
       this.router.navigate(['/albums']);
     } else {
-      // currently it's requrired to get the albums first, then get the specific album
-      // we need.
       try {
-        await this.photoAlbumService.getAlbums();
-        const album = await this.photoAlbumService.getAlbum(albumId);
-        this.album = album;
+        this.album = await this.photoAlbumService.getAlbum(albumId);
         // trigger UI update
-        this.photos$.next(album.files);
+        this.photos.set(this.album.files);
       }
       catch (error: unknown) {
         console.error((error as Error).message);
@@ -45,6 +40,6 @@ export class PhotoAlbumComponent {
   }
   // get the path to the preview image which includes resizing it based on the specified density
   getPreviewImagePath(file: IFileDto, density: number = 1): string {
-    return this.photoAlbumService.getSizedImagePath(this.album, file.name, this.previewWidth$.value * density);
+    return this.photoAlbumService.getSizedImagePath(this.album, file.name, this.previewWidth() * density);
   }
 }

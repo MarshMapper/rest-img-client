@@ -1,11 +1,11 @@
 <div class="albums-container">
-    @for(album of albums$ | async; track album) {
+    @for(album of albums(); track album) {
     <div class="album-container">
         <div class="thumbnail-container">
             <a [routerLink]="['/albums', album.path]">
                 <img class="preview" 
-                     src="{{ getThumbnailImagePath(albums, album, thumbnailWidth$.value ) }}"
-                     srcset="{{ getThumbnailImagePath(albums, album, thumbnailWidth$.value * 2) }} 2x"
+                     src="{{ getThumbnailImagePath(album, thumbnailWidth()) }}"
+                     srcset="{{ getThumbnailImagePath(album, thumbnailWidth() * 2) }} 2x"
                      alt="{{ album.description }}">
             </a>
         </div>

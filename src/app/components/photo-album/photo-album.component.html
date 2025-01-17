@@ -1,5 +1,5 @@
 <div class="album-container">
-    @for(photo of photos$ | async; track photo) {
+    @for(photo of photos(); track photo) {
     <div class="photo-container">
         <img class="photo"
             src="{{ getPreviewImagePath(photo, 1) }}"

@@ -10,7 +10,7 @@ import { IAlbumDto } from '../models/i-album-dto';
   providedIn: 'root'
 })
 export class PhotoAlbumService {
-  baseUrl: string ='https://localhost:7131';// 'https://rest-img.azurewebsites.net';
+  baseUrl: string ='https://rest-img.azurewebsites.net';
 
   albumsUrl: string = this.baseUrl + '/albums';
   startingFolderWebPath: string = '';

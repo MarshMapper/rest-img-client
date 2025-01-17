@@ -19,24 +19,31 @@ export class PhotoAlbumsComponent implements OnInit {
   thumbnailWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(300);
   albums: IAlbumsDto = { startingFolderWebPath: '', albums: [] };
 
-  constructor(private photoAlbumService: PhotoAlbumService,
-    private progressService: ProgressService
+  constructor(private readonly photoAlbumService: PhotoAlbumService,
+    private readonly progressService: ProgressService
   ) {}
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.progressService.setWorkInProgress(true);
-    // get the available albums
-    this.photoAlbumService.getAlbums().subscribe({
-      next: (albums: IAlbumsDto) => {
-        this.albums = albums;
-        // trigger UI update
-        this.albums$.next(albums.albums);
-        this.progressService.setWorkInProgress(false);
-      },
-      error: (error: Error) => {
-        console.error(error.message);
-        this.progressService.setWorkInProgress(false);
-      }
-    });
+    try
+    {
+      // get the available albums
+      await this.getAlbums();
+    }
+    catch (error: unknown)
+    {
+      console.error((error as Error).message);
+    }
+    finally
+    {
+      this.progressService.setWorkInProgress(false);
+    }
+  }
+  async getAlbums(): Promise<IAlbumsDto> {
+    const albums = await this.photoAlbumService.getAlbums();
+    this.albums = <IAlbumsDto>albums;
+    // trigger UI update
+    this.albums$.next(albums.albums);
+    return albums;
   }
   // get the path to the thumbnail image which includes resizing it based on the specified width
   getThumbnailImagePath(albums: IAlbumsDto, album: IAlbumSummaryDto, width: number): string {

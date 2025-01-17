@@ -20,10 +20,10 @@ export class PhotoAlbumComponent {
   photos$: Subject<IFileDto[]> = new Subject<IFileDto[]>();
   previewWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(600);
 
-  constructor(private route: ActivatedRoute,
-    private router: Router,
-    private photoAlbumService: PhotoAlbumService) { }
-  ngOnInit() {
+  constructor(private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly photoAlbumService: PhotoAlbumService) { }
+  async ngOnInit() {
     // if not albumId in the route, redirect to albums
     let albumId: string | null = this.route.snapshot.paramMap.get('albumId');
     if (albumId === null) {
@@ -31,18 +31,16 @@ export class PhotoAlbumComponent {
     } else {
       // currently it's requrired to get the albums first, then get the specific album
       // we need.
-      this.photoAlbumService.getAlbums().subscribe((albums) => {
-        this.photoAlbumService.getAlbum(albumId).subscribe({
-          next: (album: IAlbumDto) => {
-            this.album = album;
-            // trigger UI update
-            this.photos$.next(album.files);
-          },
-          error: (error: Error) => {
-            console.error(error.message);
-          }
-        });
-      });
+      try {
+        await this.photoAlbumService.getAlbums();
+        const album = await this.photoAlbumService.getAlbum(albumId);
+        this.album = album;
+        // trigger UI update
+        this.photos$.next(album.files);
+      }
+      catch (error: unknown) {
+        console.error((error as Error).message);
+      }
     }
   }
   // get the path to the preview image which includes resizing it based on the specified density

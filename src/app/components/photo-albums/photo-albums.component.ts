@@ -1,9 +1,8 @@
-import { OnInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { OnInit, ChangeDetectionStrategy, Component, signal, Signal, WritableSignal } from '@angular/core';
 import { PhotoAlbumService } from '../../services/photo-album.service';
 import { IAlbumsDto } from '../../models/i-albums-dto';
 import { IAlbumSummaryDto } from '../../models/i-album-summary-dto';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { ProgressService } from '../../services/progress.service';
 
@@ -15,38 +14,33 @@ import { ProgressService } from '../../services/progress.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotoAlbumsComponent implements OnInit {
-  albums$: Subject<IAlbumSummaryDto[]> = new Subject<IAlbumSummaryDto[]>();
-  thumbnailWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(300);
-  albums: IAlbumsDto = { startingFolderWebPath: '', albums: [] };
+  thumbnailWidth: WritableSignal<number> = signal(300);
+  albums: WritableSignal<IAlbumSummaryDto[]> = signal([]);
 
   constructor(private readonly photoAlbumService: PhotoAlbumService,
     private readonly progressService: ProgressService
   ) {}
-  async ngOnInit(): Promise<void> {
+  async ngOnInit() {
     this.progressService.setWorkInProgress(true);
-    try
-    {
+    try {
       // get the available albums
       await this.getAlbums();
     }
-    catch (error: unknown)
-    {
+    catch (error: unknown) {
       console.error((error as Error).message);
     }
-    finally
-    {
+    finally {
       this.progressService.setWorkInProgress(false);
     }
   }
   async getAlbums(): Promise<IAlbumsDto> {
-    const albums = await this.photoAlbumService.getAlbums();
-    this.albums = <IAlbumsDto>albums;
-    // trigger UI update
-    this.albums$.next(albums.albums);
-    return albums;
+    let albumsDto: IAlbumsDto = (await this.photoAlbumService.getAlbums());
+
+    this.albums.set(albumsDto.albums);
+    return albumsDto;
   }
   // get the path to the thumbnail image which includes resizing it based on the specified width
-  getThumbnailImagePath(albums: IAlbumsDto, album: IAlbumSummaryDto, width: number): string {
+  getThumbnailImagePath(album: IAlbumSummaryDto, width: number): string {
     return this.photoAlbumService.getSizedImagePath(album, album.thumbnail, width);
   }
 }

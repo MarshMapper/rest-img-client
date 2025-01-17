@@ -10,7 +10,7 @@ import { IAlbumDto } from '../models/i-album-dto';
   providedIn: 'root'
 })
 export class PhotoAlbumService {
-  baseUrl: string ='https://rest-img.azurewebsites.net';
+  baseUrl: string = 'https://rest-img.azurewebsites.net';
 
   albumsUrl: string = this.baseUrl + '/albums';
   startingFolderWebPath: string = '';
@@ -32,7 +32,10 @@ export class PhotoAlbumService {
       );
     return firstValueFrom(albums$);
   };
-  getAlbum(albumPath: string): Promise<IAlbumDto> {
+  async getAlbum(albumPath: string): Promise<IAlbumDto> {
+    if (this.startingFolderWebPath === '') {
+      await this.getAlbums();
+    }
     const album$ = this.httpClient.get<IAlbumDto>(`${this.albumsUrl}/${albumPath}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
